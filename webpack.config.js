@@ -13,49 +13,58 @@ var sourceFile = path.join(__dirname, 'src/index.js');
 var destFolder = path.join(__dirname, 'dist/');
 
 var entry = sourceFile;
+var filename = 'munch.min.js';
 
 if (env === 'test') {
   destFolder = path.join(__dirname, 'test/');
   entry = './test/test.js';
+}
+else if (env === 'demo') {
+  sourceFile = path.join(__dirname, 'demo/src/index.js');
+  destFolder = path.join(__dirname, 'demo/');
+  entry = sourceFile;
+  filename = 'demo.min.js';
 }
 
 console.log('\n~~~WEBPACK~~~~~~~~~~~~~~');
 console.log('env: ', env);
 console.log('Source File: ', sourceFile);
 console.log('Destination Folder: ', destFolder);
-console.log('Output File: ', 'tractive.min.js');
+console.log('Output File: ', filename);
 console.log('~~~~~~~~~~~~~~~~~~~~~~~~\n');
 
 var config = {
   entry: entry,
   output: {
     path: destFolder,
-    filename: 'tractive.min.js',
-    library: 'tractive'
+    filename: filename,
+    library: 'munch'
   },
   resolve: {
     alias: {'~': path.resolve(__dirname)}
   },
-  eslint: {
-    configFile: './.eslintrc.json',
-    emitWarning: true,
-    emitError: true,
-    failOnError: true,
-    cache: false
-  },
   module: {
-    preLoaders: [
-      { test: /\.js$/, exclude: /(node_modules)|(min\.js)/, loader: 'eslint-loader' }
-    ],
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.json$/, loader: "json-loader" }
+      { test: /\.json$/, loader: "json-loader" },
+      // {
+      //   test: /\.js$/,
+      //   exclude: /(node_modules)|(min\.js)/,
+      //   loader: 'eslint-loader',
+      //   options: {
+      //     configFile: './.eslintrc.json',
+      //     emitWarning: true,
+      //     emitError: true,
+      //     failOnError: true,
+      //     cache: false
+      //   },
+      // }
     ],
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: { warnings: false }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compressor: { warnings: false }
+    // }),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify(env),

@@ -177,7 +177,7 @@
             "MethodDefinition": false
         }
     }],
-    "semi": 1,
+    "semi": [1, "never"],
     "semi-spacing": [1, {"before": false, "after": true}],
     "sort-imports": 0,
     "sort-vars": 0,
