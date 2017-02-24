@@ -10,12 +10,20 @@ export default class Component {
   }
   onCollision() {}
 
+  _unrender() {
+    renderedClasses[this.class].splice(this.renderedClassIndex, 1)
+  }
+
   // called when a component is being rendered
   _render() {
     if (!renderedClasses[this.class])
-      renderedClasses[this.class] = this.constructor
-    if (this.detectCollision) {
+      renderedClasses[this.class] = []
 
+    this.renderedClassIndex = renderedClasses[this.class].length
+    renderedClasses[this.class].push(this)
+
+    if (this.detectCollision) {
+      
     }
   }
 }
